@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                {% if object.photo %}
+                    <img class="card-img-top" src="{{ object.photo.url }}" alt="{{ object.title }}">
+                {% endif %}
+                <h1 class="card-title">{{ object.title }}</h1>
+                <hr>
+                <h1 class="card-title">{{ object.summary }}</h1>
+                <hr>
+                <p class="card-text">{{ object.body | safe }}</p>
+                <hr>
+                <h6 class="card-subtitle mb-2 text-muted">Natija: {{ object.result }} % amalga oshirilgan</h6>
+                <hr>
+                <h6 class="card-subtitle mb-2 text-muted">{{ object.dcreated }}</h6>
+
+            </div>
+        </div>
+        <p></p>
+            <div class="card">
+                <div class="card-header">Takliflar</div>
+                        <table class="table table-sm">
+                          <thead>
+                            <tr>
+                              <th scope="col">Ilgari surilgan takliflar</th>
+                              <th scope="col">Amalga oshgan takliflar</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for offer in initiative.offers.all %}
+                                <tr>
+                                  <td>{{ offer }}</td>
+                                  <td>{{ offer.offer_result }}</td>
+                                </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                    </div>
+            </div>
+    </div>
+{% endblock content %}
