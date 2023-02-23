@@ -3,12 +3,13 @@
 {% block title %}Tashabbuslar{% endblock title %}
 
 {% block content %}
-    {% for initiative in object_list %}
+
         <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for initiative in object_list %}
           <div class="col">
                 <div class="card h-100">
                 {% if initiative.photo %}
-                  <img src="{{ initiative.photo.url }}" class="card-img-top" alt="{{ initiative.title }}">
+                  <img src="{{ initiative.photo.url }}" style="height: 400px" class="card-img-top" alt="{{ initiative.title }}">
                 {% endif %}
                   <div class="card-body">
                     <h5 class="card-title"><a href="{% url 'initiative_detail' initiative.pk %}">{{ initiative.title }}</a></h5>
@@ -19,7 +20,7 @@
                   </div>
                 </div>
           </div>
-
+         {% endfor%}
         </div>
-    {% endfor%}
+
 {% endblock content %}

@@ -36,3 +36,22 @@ class Offer(models.Model):
     class Meta:
         verbose_name = "Taklif"
         verbose_name_plural = "Takliflar"
+
+
+class Comment(models.Model):
+    initiative = models.ForeignKey(Initiative, on_delete=models.CASCADE, related_name='comments')
+    comment = models.CharField("Izoh", max_length=200)
+    email = models.CharField("Email", max_length=200, blank=True)
+    fio = models.CharField("fio", max_length=200, blank=True)
+    draft = models.BooleanField("Черновик", default=True)
+
+
+    def __str__(self):
+        return self.comment
+
+    def get_absolute_url(self):
+        return reverse('home')
+
+    class Meta:
+        verbose_name = "Izoh"
+        verbose_name_plural = "Izohlar"
