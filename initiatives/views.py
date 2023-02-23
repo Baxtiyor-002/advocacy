@@ -1,9 +1,10 @@
 from django.http import request
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView,View
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView
 from .models import Initiative, Comment
+from django.views.generic.base import View
 
-
+from .forms import CommentForm
 # Create your views here.
 
 class HomePageView(ListView):
@@ -31,3 +32,14 @@ class InitiativeDetailView(DetailView):
 #             'comments': self.model2.objects.all()
 #         }
 #         return(render(request, self.template, self.context))
+
+
+class Comment(View):
+
+    def post(self, request, pk):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.initiative_id = pk
+            form.save()
+        return redirect("/")
