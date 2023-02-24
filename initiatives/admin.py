@@ -12,6 +12,7 @@ class CommentInline(admin.TabularInline):
     model = Comment
     extra = 0
 
+
 class InitiativeAdmin(admin.ModelAdmin):
     inlines = [OfferInline, CommentInline]
 
