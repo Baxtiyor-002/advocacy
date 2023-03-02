@@ -1,11 +1,24 @@
 from django.http import request
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from .models import Initiative, Comment
 from django.views.generic.base import View
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from .forms import CommentForm
 # Create your views here.
+
+
+def InitiativeLike(request, pk):
+    post = get_object_or_404(Initiative, id=request.POST.get('initiative_id'))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+
+    return HttpResponseRedirect(reverse('initiative_detail', args=[str(pk)]))
 
 class HomePageView(ListView):
     model = Initiative
@@ -15,23 +28,17 @@ class HomePageView(ListView):
 class InitiativeDetailView(DetailView):
     model = Initiative
     template_name = 'initiative_detail.html'
-    # queryset = Initiative.objects.filter(comments__draft=False)
 
-    # def get_queryset(self):
-    #     return Initiative.objects.filter(comments__draft=True)
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
 
-# class InitiativeDetailView(DetailView):
-#     model1 = Initiative
-#     model2 = Comment
-#     template = 'initiative_detail.html'
-#     context = {}
-#
-#     def get(self, *args, **kwargs):
-#         self.context = {
-#             'initiative': self.model1.objects.all(),
-#             'comments': self.model2.objects.all()
-#         }
-#         return(render(request, self.template, self.context))
+        likes_connected = get_object_or_404(Initiative, id=self.kwargs['pk'])
+        liked = False
+        if likes_connected.likes.filter(id=self.request.user.id).exists():
+            liked = True
+        data['number_of_likes'] = likes_connected.number_of_likes()
+        data['post_is_liked'] = liked
+        return data
 
 
 class Comment(View):

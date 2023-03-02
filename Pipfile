@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 django = "*"
 pillow = "*"
+djangorestframework = "*"
+google-auth = "*"
 
 [dev-packages]
 

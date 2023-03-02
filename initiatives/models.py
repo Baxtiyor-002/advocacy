@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -10,6 +11,10 @@ class Initiative(models.Model):
     photo = models.ImageField("Foto", upload_to='images/', blank=True)
     result = models.IntegerField("Natija", default=0)
     dcreated = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name='initiative_like')
+
+    def number_of_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.title

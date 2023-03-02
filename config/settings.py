@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'initiatives',
     'likes',
+    'rest_framework',
+    #'google-auth',
+
 ]
 
 MIDDLEWARE = [
